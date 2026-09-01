@@ -1,0 +1,52 @@
+schema_version: 1
+
+context:
+  name: holidays-ext
+  version: "0.0.8"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/holidays-ext-${{ version }}.tar.gz
+  sha256: b2f80051dc3191262b9a95a6c625427a53a50814b0f162a87fdb22fccf978090
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - numpy >=1.15.4
+    - pandas >=1.0.4
+    - python-dateutil >=2.8.0
+    - lunarcalendar-ext >=0.0.1
+    - convertdate >=2.1.2
+    - holidays >=0.9.5
+
+tests:
+  - python:
+      imports:
+        - holidays_ext
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Extended holidays package
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/kaixuyang/holidays-extension
+
+extra:
+  recipe-maintainers:
+    - isuruf
+    - timkpaine
